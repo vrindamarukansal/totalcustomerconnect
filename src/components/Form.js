@@ -8,45 +8,41 @@ import { users } from '../assets/data'
 const ServiceRecordForm = () => {
     let navigate = useNavigate()
     const dispatch = useDispatch()
-    const [phone,setPhone] = useState({value:'', error:''})
-    const [zip, setZip] = useState({value:'', error:''})
+    const [phone,setPhone] = useState('')
+    const [zip, setZip] = useState('')
     const [error, setError] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        let phoneDigits = phone.value.replace(/\D/g,'')
-        let isValidPhone = phoneDigits.length===10
-        let isValidZip = zip.value.length===5
-
-        if(isValidPhone && isValidZip){
-            let user = users.find(item=> item.phone===parseInt(phoneDigits) && item.zip===parseInt(zip.value))
-            if(typeof user!=='undefined'){
-                dispatch(login(user))
-                navigate('/welcome')
-            }
-            else setError('No matching records found')
+        let phoneDigits = getDigits(phone)
+        let user = users.find(item=> item.phone===parseInt(phoneDigits) && item.zip===parseInt(zip))
+        if(typeof user!=='undefined'){
+            dispatch(login(user))
+            navigate('/welcome')
         }
-        else {
-            if(!isValidPhone) setPhone({...phone, error:'Enter a valid phone number'})
-            if(!isValidZip) setZip({...zip, error:'Enter a valid zip code'})
-        }
+        else setError('No matching records found')
     }
+
     //returns (###) ###-####
     const formatPhone = (input) => {
-        input = input.replace(/\D/g,'');
+        input = getDigits(input);
         var size = input.length;
         if (size>0) {input="("+input}
         if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
         if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
-        setPhone({value:input, error:''})
+        setPhone(input)
         setError('')
     }
 
     const formatZip = (input) => {
-        input = input.replace(/\D/g,'')
+        input = getDigits(input)
         if(input.length<6)
-            setZip({value:input, error:''})
+            setZip(input)
         setError('')
+    }
+    
+    const getDigits = (value) => {
+        return value.replace(/\D/g,'')
     }
 
     return(
@@ -58,28 +54,26 @@ const ServiceRecordForm = () => {
                 <Grid item xs={12} md={5}>
                     <TextField required
                         fullWidth
-                        error= {phone.error===''?false:true}
                         id="phone-number"
                         label="Phone Number"
-                    // defaultValue="Phone number"
-                        helperText = {phone.error===''?'10 digit phone number':phone.error}
-                        value={phone.value}
+                        helperText = '10 digit phone number'
+                        value={phone}
                         onChange={(e)=> formatPhone(e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} md={5}>
                     <TextField required
                         fullWidth
-                        error= {zip.error===''?false:true}
                         id="zipcode"
                         label="Zip Code"
-                        helperText = {zip.error===''?'5 digit zip code':zip.error}
-                        value={zip.value}
+                        helperText = '5 digit zip code'
+                        value={zip}
                         onChange={(e)=> formatZip(e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <Button variant="contained"
+                    disabled={!(phone.length>=14 && zip.length>=5)}
                     sx={{mb:2}}
                     onClick={(e)=> handleSubmit(e)}>
                         Submit

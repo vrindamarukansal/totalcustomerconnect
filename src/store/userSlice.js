@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchUser, users } from '../assets/data';
 
 const initialState = {
     authenticated: false,
@@ -20,5 +21,5 @@ export const userSlice = createSlice({
     }
 })
 
-export const {login, logout} = userSlice.actions
+export const {login, logout} = userSlice.actions     
 export default userSlice.reducer

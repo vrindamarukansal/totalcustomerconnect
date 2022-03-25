@@ -4,7 +4,6 @@ import { Typography } from '@mui/material'
 
 const Welcome = () => {
     const {userInfo} = useSelector(state=> state.user)
-
     return(
         <div>
             <Typography variant='h4' gutterBottom>Welcome {userInfo.name}</Typography>
