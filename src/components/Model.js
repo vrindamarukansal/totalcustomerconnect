@@ -19,7 +19,7 @@ const Model = () => {
     return(
         <Grid container spacing={4} alignItems='center' sx={{mb:4}}>
             {items.map((item, key)=>(
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={4} key={key}>
                     <Grow
                     key={key}
                     in={true}

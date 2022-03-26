@@ -6,6 +6,8 @@ import Landing from './routes/landing'
 import Welcome from './routes/welcome';
 import Error from './routes/error';
 import {Container} from '@mui/material'
+import Wip from './routes/wip';
+
 function App() {
   const {authenticated} = useSelector(state=> state.user)
 
@@ -20,7 +22,10 @@ function App() {
     return(
       <>
         <Header/>
-        <Container maxWidth='md'>
+        <Container maxWidth='false' sx={{
+          width: { md: `calc(100% - 300px)` },
+          ml: { md: `300px` },
+        }}>
           <Outlet/>
         </Container>
       </>
@@ -33,13 +38,15 @@ function App() {
         <Routes>
             <Route path='/' element={<Layout/>}>
               <Route index element={<Landing/>}/>
+              <Route path='/login' element={<Wip/>}/>
+              <Route path='/book' element={<Wip/>}/>
+              <Route path='/guest' element={<Wip/>}/>
               <Route path='/welcome' element={
                   <RequireAuth>
                       <Welcome/>
                   </RequireAuth>}/>
-              <Route path='*' element={<Error/>}/>
             </Route>
-
+            <Route path='*' element={<Error/>}/>
         </Routes>
       </BrowserRouter>
     </>

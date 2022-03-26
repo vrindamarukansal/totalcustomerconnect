@@ -1,9 +1,18 @@
 import React from 'react'
-import { Typography } from '@mui/material'
+import { Typography, Button, Box } from '@mui/material'
+import { useNavigate } from 'react-router'
 
 const Error = () => {
+    const navigate = useNavigate()
     return(
-        <Typography variant='h4'>Page does not exist</Typography>
+        <Box className='error'>
+            <Box>
+            <Typography variant='h4'>Page does not exist</Typography>
+            <Button onClick={()=> navigate(-1)}>
+                Go back
+            </Button>
+            </Box>
+        </Box>
     )
 }
 
