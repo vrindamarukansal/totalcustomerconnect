@@ -10,13 +10,3 @@ export const users = [
         zip:54321
     },
 ]
-
-// A mock function to mimic making an async request for data
-export function fetchUser(phone,zip) {
-    return new Promise((resolve) =>
-      setTimeout(() => {
-        let user = users.find(item=> item.phone===parseInt(phone) && item.zip===parseInt(zip))
-        resolve(user)
-      }, 1000)
-    );
-  }

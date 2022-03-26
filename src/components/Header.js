@@ -16,10 +16,8 @@ const Header = () => {
           {location.pathname!=='/' &&
             <IconButton
                   size="large"
-                  edge="start"
                   color="inherit"
                   aria-label="back"
-                  sx={{ mr: 2 }}
                   onClick={()=>navigate('/')}>
                   <ArrowBackIcon />
                   <Typography variant='overline'>Back</Typography>

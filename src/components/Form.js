@@ -8,14 +8,14 @@ import { users } from '../assets/data'
 const ServiceRecordForm = () => {
     let navigate = useNavigate()
     const dispatch = useDispatch()
-    const [phone,setPhone] = useState('')
-    const [zip, setZip] = useState('')
+    const [phone,setPhone] = useState({value:'',error:false})
+    const [zip, setZip] = useState({value:'',error:false})
     const [error, setError] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        let phoneDigits = getDigits(phone)
-        let user = users.find(item=> item.phone===parseInt(phoneDigits) && item.zip===parseInt(zip))
+        let phoneDigits = getDigits(phone.value)
+        let user = users.find(item=> item.phone===parseInt(phoneDigits) && item.zip===parseInt(zip.value))
         if(typeof user!=='undefined'){
             dispatch(login(user))
             navigate('/welcome')
@@ -30,24 +30,22 @@ const ServiceRecordForm = () => {
         if (size>0) {input="("+input}
         if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
         if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
-        setPhone(input)
-        setError('')
+        setPhone({...phone, value:input})
     }
 
     const formatZip = (input) => {
         input = getDigits(input)
         if(input.length<6)
-            setZip(input)
-        setError('')
+            setZip({...zip, value:input})
     }
-    
+
     const getDigits = (value) => {
         return value.replace(/\D/g,'')
     }
 
     return(
         <>
-            <Typography variant='h4' sx={{mb:2}}>
+            <Typography variant='h4' sx={{mb:4}}>
                 Find your service records
             </Typography>
             <Grid container spacing={2} alignItems='center' sx={{mb:4}}>
@@ -56,9 +54,18 @@ const ServiceRecordForm = () => {
                         fullWidth
                         id="phone-number"
                         label="Phone Number"
-                        helperText = '10 digit phone number'
-                        value={phone}
+                        helperText ={phone.error?'enter a valid 10 digit number':'10 digit phone number'}
+                        value={phone.value}
+                        error={phone.error}
                         onChange={(e)=> formatPhone(e.target.value)}
+                        onBlur={()=> {
+                            if(phone.value.length<14)
+                                setPhone({...phone, error:true})
+                        }}
+                        onFocus={()=> {
+                            setError('')
+                            setPhone({...phone, error:false})
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} md={5}>
@@ -66,14 +73,23 @@ const ServiceRecordForm = () => {
                         fullWidth
                         id="zipcode"
                         label="Zip Code"
-                        helperText = '5 digit zip code'
-                        value={zip}
+                        helperText ={zip.error?'enter a valid 5 digit code':'5 digit area code'}
+                        value={zip.value}
+                        error={zip.error}
                         onChange={(e)=> formatZip(e.target.value)}
+                        onBlur={()=> {
+                            if(zip.value.length<5)
+                                setZip({...zip, error:true})
+                        }}
+                        onFocus={()=> {
+                            setError('')
+                            setZip({...zip, error:false})
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <Button variant="contained"
-                    disabled={!(phone.length>=14 && zip.length>=5)}
+                    disabled={!(phone.value.length>=14 && zip.value.length>=5)}
                     sx={{mb:2}}
                     onClick={(e)=> handleSubmit(e)}>
                         Submit

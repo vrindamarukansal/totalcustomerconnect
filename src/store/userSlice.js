@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUser, users } from '../assets/data';
 
 const initialState = {
     authenticated: false,

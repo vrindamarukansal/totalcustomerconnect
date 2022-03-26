@@ -23,7 +23,6 @@ function App() {
         <Container maxWidth='md'>
           <Outlet/>
         </Container>
-
       </>
     )
   }
@@ -35,9 +34,9 @@ function App() {
             <Route path='/' element={<Layout/>}>
               <Route index element={<Landing/>}/>
               <Route path='/welcome' element={
-                          <RequireAuth>
-                            <Welcome/>
-                          </RequireAuth>}/>
+                  <RequireAuth>
+                      <Welcome/>
+                  </RequireAuth>}/>
               <Route path='*' element={<Error/>}/>
             </Route>
 
