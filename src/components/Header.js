@@ -1,13 +1,12 @@
 import React from 'react'
-import { AppBar, Box, Toolbar, Typography, IconButton} from '@mui/material'
+import { AppBar, Box, Toolbar, IconButton} from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useNavigate, useLocation } from 'react-router'
 import MenuIcon from '@mui/icons-material/Menu';
 import DrawerMenu from './DrawerMenu';
+import logo from '../logo.png'
 
-const drawerWidth = 300;
-
-const Header = () => {
+const Header = ({drawerWidth}) => {
   let navigate = useNavigate()
   let location = useLocation()
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -18,12 +17,9 @@ const Header = () => {
   
     return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static"         
-        sx={{
-        width: { md: `calc(100% - ${drawerWidth}px)` },
-        ml: { md: `${drawerWidth}px` },
-        mb:4
-      }}>
+      <AppBar position="fixed"  
+        color='transparent'       
+        sx={{zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -34,9 +30,9 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Total Customer Connect
-          </Typography>
+          <Box component="div" sx={{ flexGrow: 1, paddingY:2}}>
+            <img src={logo} className='logo' alt='total customer connect'/>
+          </Box>
           {location.pathname!=='/' &&
             <IconButton
                   size="large"
@@ -44,7 +40,6 @@ const Header = () => {
                   aria-label="back"
                   onClick={()=>navigate(-1)}>
                   <ArrowBackIcon />
-                  <Typography variant='overline'>Back</Typography>
               </IconButton>
           }
         </Toolbar>

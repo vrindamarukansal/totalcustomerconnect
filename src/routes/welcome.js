@@ -1,18 +1,23 @@
 import React,{useState, useEffect} from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Box, Typography, Divider } from '@mui/material'
 import Model from '../components/Model'
 import Loading from '../components/Loading'
+import { logout } from '../store/userSlice'
 
 const Welcome = () => {
     const {userInfo} = useSelector(state=> state.user)
     const [loading,setLoading] = useState(true) //mock fetching data state
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         setTimeout(()=>
             setLoading(false),
         1000)
-    },[])
+        return () => {
+            dispatch(logout())
+        }
+    },[dispatch])
 
     return(
         <>

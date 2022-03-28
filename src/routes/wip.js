@@ -1,9 +1,14 @@
 import React from 'react'
-import { Typography } from '@mui/material'
+import { Typography, Fade, Box } from '@mui/material'
 
 const Wip = () => {
     return(
-        <Typography variant='h4'>Page under construction</Typography>
+        <Box>
+            <Typography variant='h4'>Page under construction</Typography>
+            <Fade in={true}>
+                <Typography variant='overline'>Coming up soon</Typography>
+            </Fade>
+        </Box>
     )
 }
 

@@ -1,20 +1,8 @@
 import React from 'react'
-import { Grid, Paper, Box, Grow } from '@mui/material'
+import { Grid, Paper, Box, Grow, Typography } from '@mui/material'
 
 const Model = () => {
     const items = [1,2,3,4,5,6]
-    const icon = (
-        <Paper elevation={4}>
-            <Box sx={{ 
-                height: 200,
-                backgroundColor: 'primary.dark',
-                '&:hover': {
-                    backgroundColor: 'primary.main',
-                    opacity: [0.9, 0.8, 0.7], 
-                }
-            }}/>
-        </Paper>
-    )
 
     return(
         <Grid container spacing={4} alignItems='center' sx={{mb:4}}>
@@ -26,7 +14,18 @@ const Model = () => {
                     style={{ transformOrigin: '0 0 0' }}
                     {...{ timeout: 1000*item }}
                     >
-                        {icon}
+                        <Paper elevation={4}>
+                            <Box className='align-center' 
+                                sx={{ 
+                                height: 200,
+                                backgroundColor: 'secondary.main',
+                                '&:hover': {
+                                    opacity: [0.9, 0.8, 0.7], 
+                                },
+                            }}>
+                                <Typography variant='overline'>Vehicle {key}</Typography>
+                            </Box>
+                        </Paper>
                     </Grow>
                 </Grid>
             ))}

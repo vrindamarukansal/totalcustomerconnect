@@ -3,7 +3,8 @@ import {Button, TextField, Typography, Alert, Grid} from '@mui/material'
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from 'react-redux'
 import { login } from '../store/userSlice'
-import { users } from '../assets/data'
+import { fetchUser } from '../assets/mockData'
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ServiceRecordForm = () => {
     let navigate = useNavigate()
@@ -11,16 +12,22 @@ const ServiceRecordForm = () => {
     const [phone,setPhone] = useState({value:'',error:false})
     const [zip, setZip] = useState({value:'',error:false})
     const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        setLoading(true)
         let phoneDigits = getDigits(phone.value)
-        let user = users.find(item=> item.phone===parseInt(phoneDigits) && item.zip===parseInt(zip.value))
-        if(typeof user!=='undefined'){
-            dispatch(login(user))
-            navigate('/welcome')
-        }
-        else setError('No matching records found')
+        fetchUser(phoneDigits, zip.value)
+        .then(res=> {
+            dispatch(login(res))
+            navigate('/welcome') 
+            setLoading(false)
+        })
+        .catch(()=> {
+            setError('No matching records found') 
+            setLoading(false)
+        })
     }
 
     //returns (###) ###-####
@@ -44,7 +51,7 @@ const ServiceRecordForm = () => {
     }
 
     return(
-        <>
+        <div data-testid='search-record-form'>
             <Typography variant='h4' sx={{mb:4}}>
                 Find your service records
             </Typography>
@@ -89,8 +96,9 @@ const ServiceRecordForm = () => {
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <Button variant="contained"
-                    disabled={!(phone.value.length>=14 && zip.value.length>=5)}
+                    disabled={!(phone.value.length>=14 && zip.value.length>=5)||loading}
                     sx={{mb:2}}
+                    endIcon={loading?<CircularProgress size={10}/>:null}
                     onClick={(e)=> handleSubmit(e)}>
                         Submit
                     </Button>
@@ -99,7 +107,7 @@ const ServiceRecordForm = () => {
             {error!=='' && 
                 <Alert severity="error">{error}</Alert>
             }
-        </>
+        </div>
     )
 }
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import {Divider, Box, List, Drawer, ListItem,ListItemText, Toolbar, Typography} from '@mui/material';
-import { menuItems } from '../assets/data'
+import {Box, List, Drawer, ListItem,ListItemText, Toolbar, Typography} from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
 const DrawerMenu = (props) => {
@@ -8,12 +7,11 @@ const DrawerMenu = (props) => {
   const location= useLocation()
   const drawer = (
     <>
-      <Toolbar />
-      <Divider />
+      <Toolbar/>
       <List>
         {menuItems.map((item, key) => (
-          <Link to={item.link} className={location.pathname===item.link?'active':''} key={key}>
-            <ListItem button>
+          <Link to={item.link} key={key}>
+            <ListItem button className={location.pathname===item.link?'active':''}>
               <div>
                 <ListItemText primary={item.text}/>
                 <Typography variant="overline" display="block" gutterBottom>
@@ -46,7 +44,7 @@ const DrawerMenu = (props) => {
           }}
           sx={{
             display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { width: drawerWidth },
           }}
         >
           {drawer}
@@ -55,7 +53,8 @@ const DrawerMenu = (props) => {
           variant="permanent"
           sx={{
             display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            flexShrink:0,
+            '& .MuiDrawer-paper': { width: drawerWidth },
           }}
           open
         >
@@ -65,5 +64,30 @@ const DrawerMenu = (props) => {
       </>
   );
 }
+
+const menuItems = [
+  {
+      text: 'Find My Records',
+      subText:'Serviced a vehicle here before?',
+      link:'/'
+      
+  },
+  {
+      text:'Continue as Guest',
+      subText:'First appointment',
+      link:'/guest'
+
+  },
+  {
+      text:'In a Rush',
+      subText:'Book next available appointment',
+      link:'/book'
+  },
+  {
+      text:'Log In',
+      subText:'Have an account with us?',
+      link:'/login'
+  }
+]
 
 export default DrawerMenu;

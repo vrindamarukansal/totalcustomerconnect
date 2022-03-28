@@ -1,11 +1,10 @@
 import './App.css';
-import {BrowserRouter, Routes, Route, useLocation, Navigate, Outlet } from 'react-router-dom'
-import Header from './components/Header'
+import {BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import {useSelector} from 'react-redux'
+import Layout from './assets/layout';
 import Landing from './routes/landing'
 import Welcome from './routes/welcome';
 import Error from './routes/error';
-import {Container} from '@mui/material'
 import Wip from './routes/wip';
 
 function App() {
@@ -16,20 +15,6 @@ function App() {
     if(!authenticated)
       return <Navigate to="/" state={{ from: location }} replace />
     return children
-  }
-
-  const Layout = () => {
-    return(
-      <>
-        <Header/>
-        <Container maxWidth='false' sx={{
-          width: { md: `calc(100% - 300px)` },
-          ml: { md: `300px` },
-        }}>
-          <Outlet/>
-        </Container>
-      </>
-    )
   }
 
   return (
