@@ -61,7 +61,7 @@ const ServiceRecordForm = () => {
                         fullWidth
                         id="phone-number"
                         label="Phone Number"
-                        helperText ={phone.error?'enter a valid 10 digit number':'10 digit phone number'}
+                        helperText ={phone.error?'Enter a valid 10 digit number':'10 digit phone number'}
                         value={phone.value}
                         error={phone.error}
                         onChange={(e)=> formatPhone(e.target.value)}
@@ -80,7 +80,7 @@ const ServiceRecordForm = () => {
                         fullWidth
                         id="zipcode"
                         label="Zip Code"
-                        helperText ={zip.error?'enter a valid 5 digit code':'5 digit area code'}
+                        helperText ={zip.error?'Enter a valid 5 digit code':'5 digit area code'}
                         value={zip.value}
                         error={zip.error}
                         onChange={(e)=> formatZip(e.target.value)}

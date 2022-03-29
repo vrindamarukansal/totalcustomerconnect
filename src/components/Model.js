@@ -20,10 +20,11 @@ const Model = () => {
                                 height: 200,
                                 backgroundColor: 'secondary.main',
                                 '&:hover': {
+                                    backgroundColor:'secondary.dark',
                                     opacity: [0.9, 0.8, 0.7], 
                                 },
                             }}>
-                                <Typography variant='overline'>Vehicle {key}</Typography>
+                                <Typography variant='overline'>Vehicle {key+1}</Typography>
                             </Box>
                         </Paper>
                     </Grow>
